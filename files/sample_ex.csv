@@ -1,0 +1,6 @@
+mutant-id|timeToExecute|0-passes a basic sanity check|1-allows namespaces to be a non-string value|2-uses it|3-uses it
+MUTANT 1|5155ms|1|0|1|0
+MUTANT 2|4956ms|1|1|0|1
+MUTANT 3|4695ms|0|0|1|0
+MUTANT 4|4728ms|0|1|0|1
+MUTANT 5|4847ms|0|1|1|1
