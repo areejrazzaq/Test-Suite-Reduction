@@ -23,7 +23,6 @@
     "chalk": "^4.1.2",
     "child_process": "^1.0.2",
     "fs": "0.0.1-security",
-    "mathjs": "^10.6.4",
     "mocha": "^9.0.3"
   }
 }

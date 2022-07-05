@@ -1,9 +1,7 @@
 const chalk = require('chalk');
 const fs = require('fs');
 const { execFileSync } = require('child_process');
-const math = require('mathjs');
 let { time } = require('console');
-
 
 let args = process.argv.slice(2);
 let pathToFile = args[1];
@@ -41,6 +39,20 @@ function avg(arr) {
     return sum / arr.length;
 }
 
+function standardDeviation(arr){
+    let mean = arr.reduce((acc, curr)=>{
+	return acc + curr
+}, 0) / arr.length;
+
+
+arr = arr.map((el)=>{
+	return (el - mean) ** 2
+})
+
+let total = arr.reduce((acc, curr)=> acc + curr, 0);
+
+return Math.sqrt(total / arr.length)
+}
 
 function convertToMs(time) {
     another = new RegExp("[0-9]+", "g");
@@ -104,7 +116,7 @@ console.log(`${chalk.bgMagenta("Average reduced test set size = "+averageTSSize)
 
 
 
-let str = `${fileName},${osize},${Math.min(...reducedSize)},${Math.min(...execTime)},${Math.min(...loss)},${Math.max(...reducedSize)},${Math.max(...execTime)},${Math.max(...loss)},${avg(execTime)},${avg(loss)},${math.std(reducedSize)} \n`;
+let str = `${fileName},${osize},${Math.min(...reducedSize)},${Math.min(...execTime)},${Math.min(...loss)},${Math.max(...reducedSize)},${Math.max(...execTime)},${Math.max(...loss)},${avg(execTime)},${avg(loss)},${standardDeviation(reducedSize)} \n`;
 
 createOutput()
 outputToCSV(str)
