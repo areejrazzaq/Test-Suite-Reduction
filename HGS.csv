@@ -1,35 +1,4 @@
 DateTime,Name,TotalMutants,ExecutionTime(ms),ExecutionTime,MutationScoreOriginal,MutationScoreReduced,ReducedSet,OriginalSetSize,ReducedSetSize
-1 July;17h:35min:10sec,sample_ex,5,16ms,0m 0s 16ms,100.000,100.000,2 0 1,4,3
-1 July;17h:35min:17sec,paper_test,7,15ms,0m 0s 15ms,100.000,100.000,4 0 2,7,3
-1 July;17h:35min:24sec,test2,6,8ms,0m 0s 8ms,100.000,100.000,1 3 2,5,3
-1 July;17h:35min:31sec,debug-new,1284,597ms,0m 0s 597ms,3.505,3.505,2,4,1
-1 July;17h:35min:43sec,test2,6,8ms,0m 0s 8ms,100.000,100.000,1 3 2,5,3
-1 July;17h:36min:26sec,test2,6,11ms,0m 0s 11ms,100.000,100.000,1 3 2,5,3
-1 July;17h:36min:28sec,debug-new,1284,593ms,0m 0s 593ms,3.505,3.505,2,4,1
-1 July;17h:36min:32sec,debug-new,1284,688ms,0m 0s 688ms,3.505,3.505,3,4,1
-1 July;17h:37min:8sec,debug-new,1284,545ms,0m 0s 545ms,3.505,3.505,2,4,1
-1 July;17h:37min:13sec,debug-new,1284,716ms,0m 0s 716ms,3.505,3.505,2,4,1
-1 July;17h:39min:35sec,paper_test,7,1ms,0m 0s 1ms,100.000,100.000,4 0 2,7,3
-1 July;17h:39min:35sec,paper_test,7,1ms,0m 0s 1ms,100.000,100.000,4 0 2,7,3
-1 July;17h:39min:35sec,paper_test,7,1ms,0m 0s 1ms,100.000,100.000,4 0 2,7,3
-1 July;17h:39min:35sec,paper_test,7,1ms,0m 0s 1ms,100.000,100.000,4 0 2,7,3
-1 July;17h:39min:35sec,paper_test,7,2ms,0m 0s 2ms,100.000,100.000,4 0 2,7,3
-1 July;17h:39min:36sec,paper_test,7,1ms,0m 0s 1ms,100.000,100.000,4 0 2,7,3
-1 July;17h:39min:36sec,paper_test,7,1ms,0m 0s 1ms,100.000,100.000,4 0 2,7,3
-1 July;17h:39min:36sec,paper_test,7,2ms,0m 0s 2ms,100.000,100.000,4 0 2,7,3
-1 July;17h:39min:36sec,paper_test,7,1ms,0m 0s 1ms,100.000,100.000,4 0 2,7,3
-1 July;17h:39min:36sec,paper_test,7,2ms,0m 0s 2ms,100.000,100.000,4 0 2,7,3
-1 July;17h:39min:53sec,debug-new,1284,590ms,0m 0s 590ms,3.505,3.505,3,4,1
-1 July;17h:39min:53sec,debug-new,1284,508ms,0m 0s 508ms,3.505,3.505,3,4,1
-1 July;17h:39min:54sec,debug-new,1284,569ms,0m 0s 569ms,3.505,3.505,2,4,1
-1 July;17h:39min:55sec,debug-new,1284,528ms,0m 0s 528ms,3.505,3.505,2,4,1
-1 July;17h:39min:56sec,debug-new,1284,563ms,0m 0s 563ms,3.505,3.505,3,4,1
-1 July;17h:39min:56sec,debug-new,1284,519ms,0m 0s 519ms,3.505,3.505,3,4,1
-1 July;17h:39min:57sec,debug-new,1284,546ms,0m 0s 546ms,3.505,3.505,2,4,1
-1 July;17h:39min:58sec,debug-new,1284,691ms,0m 0s 691ms,3.505,3.505,2,4,1
-1 July;17h:39min:59sec,debug-new,1284,540ms,0m 0s 540ms,3.505,3.505,2,4,1
-1 July;17h:39min:59sec,debug-new,1284,644ms,0m 0s 644ms,3.505,3.505,3,4,1
-1 July;17h:40min:24sec,20,5,1ms,0m 0s 1ms,100.000,80.000,2 0,4,2
 5 July;12h:40min:12sec,test2,6,31ms,0m 0s 31ms,100.000,100.000,1 3 2,5,3
 5 July;12h:43min:18sec,test2,6,1ms,0m 0s 1ms,100.000,100.000,1 3 2,5,3
 5 July;12h:43min:43sec,test2,6,2ms,0m 0s 2ms,100.000,100.000,1 3 2,5,3
