@@ -1,6 +1,10 @@
 const chalk = require('chalk');
 const fs = require('fs');
 
+
+// GIVING INPUT
+// node hgs-alpha.js ALPHA path
+
 //Reading the file
 const args = process.argv.slice(2);
 const path = args[1];
@@ -8,7 +12,7 @@ let alpha = parseFloat(args[0])
 const data = fs.readFileSync(path,'utf8');
 const lines = data.split("\n")
 const start = new Date().getTime();
-let fileName = args[0].split('/')
+let fileName = args[1].split('/')
 fileName = fileName[fileName.length - 1]
 fileName = fileName.replace(".csv","");
 
@@ -66,7 +70,7 @@ for (const r in req){
     curCard = 1;
 }
 if(tolerate(alpha,optimizedSuite)){
-    output();
+    writeToFiles();
     return;
 }
 let stop = false;
@@ -149,6 +153,22 @@ function createOutput(){
 function outputToCSV(str){
     fs.appendFileSync("HGS.csv",str,'utf8')
 }
+
+function createTable() {
+    if (!fs.existsSync("comparisonHGS.csv")) {
+        let header = "Package,Time (ms), Alpha, Original Set Size, Reduced Test Size, Mutation Loss, Set Size Reduction";
+        fs.appendFileSync("comparisonHGS.csv", header + "\n", 'utf8');
+    }
+}
+
+function outputTable(str) {
+    fs.appendFileSync("comparisonHGS.csv", str, 'utf8');
+}
+
+function calculateReduction(original,reduced){
+    return (((original-reduced)*100)/original).toFixed(3);
+}
+
 
 
 // CREATING INPUT
@@ -336,7 +356,7 @@ function tolerate(alpha,suite){
 
 
 // OUTPUT ON CONSOLE
-function output(){
+function writeToFiles(){
     let end = new Date().getTime();
     let time = end - start;
     let seconds = Math.floor(time / 1000);
@@ -357,11 +377,14 @@ function output(){
     console.log(`${chalk.bgMagenta("Original set Size: ",testCases.length)}`)
 
     let str = datetime + "," + fileName + "," + totalMutants + "," + time + "ms" + "," + minutes + "m " + (seconds - minutes * 60) + "s " + (time - seconds * 1000) + "ms" + "," + mutationScore + "," + opMutationScore + "," + optimizedSuite.join(" ") + "," + header.length + "," + optimizedSuite.length + "\n";
+    let tableRow = fileName + "," + minutes + "m " + (seconds - minutes * 60) + "s " + (time - seconds * 1000) + "," + alpha + "," + testCases.length + "," + optimizedSuite.length + ","+ calculateReduction(mutationScore,opMutationScore) + "," + calculateReduction(testCases.length,optimizedSuite.length) + "\n";; 
 
     // WRITING TO FILE
     createOutput()
     outputToCSV(str)
+    createTable();
+    outputTable(tableRow);
 }
 
-output();
+writeToFiles();
 

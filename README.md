@@ -41,3 +41,20 @@ Does a selection of test cases which together kill all of mutants and returns a 
 ### delayedGreedy-ensemble  
 Executes multiple runs of greedyMin  
 `node delayedGreedy-ensemble.js <numbers of runs to execute> <path to csv>`  
+
+
+### HGS
+Produces an optimized suite in contrast to the test cases. The algorithm does an optimized search where it includes the test cases that kills maximum mutants. The search stops when all of the mutants can be killed with the test cases of optimized suite. (a csv output hgs.csv is also produced)  
+`node hgs.js <path to csv> ``
+
+#### Example  
+`node hgs.js 5 files/uuid-new.csv` 
+
+
+### hgs-ensemble  
+Executes multiple runs of HGS  
+`node hgs-ensemble.js <numbers of runs to execute> <path to csv>`  
+
+### hgs-alpha  
+Introduces a tolerance value alpha which stops the search when a given tolerance is achieved.
+`node hgs-alpha.js <alpha> <path to csv>`
