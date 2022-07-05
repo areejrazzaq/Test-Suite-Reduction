@@ -45,7 +45,7 @@ Executes multiple runs of greedyMin
 
 ### HGS
 Produces an optimized suite in contrast to the test cases. The algorithm does an optimized search where it includes the test cases that kills maximum mutants. The search stops when all of the mutants can be killed with the test cases of optimized suite. (a csv output hgs.csv is also produced)  
-`node hgs.js <path to csv> ``
+`node hgs.js <path to csv>`
 
 #### Example  
 `node hgs.js 5 files/uuid-new.csv` 
