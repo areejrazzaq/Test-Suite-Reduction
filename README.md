@@ -52,7 +52,7 @@ Produces an optimized suite in contrast to the test cases. The algorithm does an
 
 
 ### hgs-ensemble  
-Executes multiple runs of HGS  
+Executes multiple runs of HGS-alpha
 `node hgs-ensemble.js <numbers of runs to execute> <path to csv> <alpha>`  
 
 ### hgs-alpha  
