@@ -1,0 +1,5 @@
+,,,Min,,,Max,, ,  ,
+Package,Original Set Size,Runs, |T|,t(ms),loss,|T|,t(ms),loss,Avg Reduced Size, Avg Time, Avg Loss, S.D
+test2,5,5,3,1,0,3,2,0,3,1.2,0,0 
+uuid-new,17,5,9,2001,0,9,2172,0,9,2060.6,0,0 
+body-parser-new,218,5,60,807,4.114598438898896,134,1541,17.022054651148125,90,1172.8,8.171191505995981,31.673332631726648 

@@ -155,14 +155,14 @@ function outputToCSV(str){
 }
 
 function createTable() {
-    if (!fs.existsSync("comparisonHGS.csv")) {
-        let header = "Package,Time (ms), Alpha, Original Set Size, Reduced Test Size, Mutation Loss, Set Size Reduction";
-        fs.appendFileSync("comparisonHGS.csv", header + "\n", 'utf8');
+    if (!fs.existsSync("hgsAlpha.csv")) {
+        let header = "Package,Time (ms), Alpha, Original Set Size, Reduced Test Size, Original Mutation Score,  Mutation Score (Optimized set), Mutation Loss, Set Size Reduction";
+        fs.appendFileSync("hgsAlpha.csv", header + "\n", 'utf8');
     }
 }
 
 function outputTable(str) {
-    fs.appendFileSync("comparisonHGS.csv", str, 'utf8');
+    fs.appendFileSync("hgsAlpha.csv", str, 'utf8');
 }
 
 function calculateReduction(original,reduced){
@@ -377,14 +377,13 @@ function writeToFiles(){
     console.log(`${chalk.bgMagenta("Original set Size: ",testCases.length)}`)
 
     let str = datetime + "," + fileName + "," + totalMutants + "," + time + "ms" + "," + minutes + "m " + (seconds - minutes * 60) + "s " + (time - seconds * 1000) + "ms" + "," + mutationScore + "," + opMutationScore + "," + optimizedSuite.join(" ") + "," + header.length + "," + optimizedSuite.length + "\n";
-    let tableRow = fileName + "," + minutes + "m " + (seconds - minutes * 60) + "s " + (time - seconds * 1000) + "," + alpha + "," + testCases.length + "," + optimizedSuite.length + ","+ calculateReduction(mutationScore,opMutationScore) + "," + calculateReduction(testCases.length,optimizedSuite.length) + "\n";; 
+    let tableRow = fileName + "," + time + "ms" + "," + alpha + "," + testCases.length + "," + optimizedSuite.length + ","+ mutationScore +","+ opMutationScore +"," +calculateReduction(mutationScore,opMutationScore) + "," + calculateReduction(testCases.length,optimizedSuite.length) + "\n";; 
 
     // WRITING TO FILE
-    createOutput()
-    outputToCSV(str)
+    // createOutput()
+    // outputToCSV(str)
     createTable();
     outputTable(tableRow);
 }
 
 writeToFiles();
-

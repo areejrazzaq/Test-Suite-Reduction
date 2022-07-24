@@ -316,8 +316,8 @@ linesReduced = linesArr.filter(line=>
 totalMutants = linesReduced.length;
 
 
-var mutationScore = getMutationScore(testCases, linesReduced,totalMutants);
-var opMutationScore = getMutationScore(optimizedSuite, linesReduced,totalMutants);
+const mutationScore = getMutationScore(testCases, linesReduced,totalMutants);
+const opMutationScore = getMutationScore(optimizedSuite, linesReduced,totalMutants);
 
 let end = new Date().getTime();
 let time = end - start;

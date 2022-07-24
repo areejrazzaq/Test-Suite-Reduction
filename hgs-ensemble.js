@@ -5,6 +5,7 @@ let { time } = require('console');
 
 let args = process.argv.slice(2);
 let pathToFile = args[1];
+let alpha = args[2];
 let runs = parseFloat(args[0])
 let totalRunningTime = 0
 let cummulativeReducedSetSize = 0
@@ -18,16 +19,16 @@ let reducedSize = [];
 let loss = [];
 
 function createOutput() {
-    if (!fs.existsSync("hgsCompare.csv")) {
-        let row1 = ",,Min,,,Max,, ,  ,";
-        let row2 = "Package,Original Set Size, |T|,t(ms),loss,|T|,t(ms),loss,Avg Time, Avg Loss, S.D";
-        fs.appendFileSync("hgsCompare.csv", row1 + "\n", 'utf8');
-        fs.appendFileSync("hgsCompare.csv", row2 + "\n", 'utf8');
+    if (!fs.existsSync("hgs-ensemble.csv")) {
+        let row1 = ",,,Min,,,Max,, ,  ,";
+        let row2 = "Package,Original Set Size,Runs, |T|,t(ms),loss,|T|,t(ms),loss,Avg Reduced Size, Avg Time, Avg Loss, S.D";
+        fs.appendFileSync("hgs-ensemble.csv", row1 + "\n", 'utf8');
+        fs.appendFileSync("hgs-ensemble.csv", row2 + "\n", 'utf8');
     }
 }
 
 function outputToCSV(str) {
-    fs.appendFileSync("hgsCompare.csv", str, 'utf8');
+    fs.appendFileSync("hgs-ensemble.csv", str, 'utf8');
 }
 
 
@@ -64,7 +65,7 @@ function convertToMs(time) {
 }
 
 function runScript(pathToFile, callback) {
-    const output = execFileSync("node", ["hgs.js", pathToFile])
+    const output = execFileSync("node", ["hgs-alpha.js", alpha ,pathToFile])
     console.log(output.toString())
     lines = output.toString().split("\n");
     for (let line of lines) {
@@ -116,7 +117,7 @@ console.log(`${chalk.bgMagenta("Average reduced test set size = "+averageTSSize)
 
 
 
-let str = `${fileName},${osize},${Math.min(...reducedSize)},${Math.min(...execTime)},${Math.min(...loss)},${Math.max(...reducedSize)},${Math.max(...execTime)},${Math.max(...loss)},${avg(execTime)},${avg(loss)},${standardDeviation(reducedSize)} \n`;
+let str = `${fileName},${osize},${runs},${Math.min(...reducedSize)},${Math.min(...execTime)},${Math.min(...loss)},${Math.max(...reducedSize)},${Math.max(...execTime)},${Math.max(...loss)},${avg(reducedSize)},${avg(execTime)},${avg(loss)},${standardDeviation(reducedSize)} \n`;
 
 createOutput()
 outputToCSV(str)
