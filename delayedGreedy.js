@@ -3,7 +3,9 @@ const fs = require('fs');
 
 //Reading the file
 var args = process.argv.slice(2);
-var path = args[0]
+var path = args[0];
+var alpha = args[1];
+console.log("alpha",alpha);
 var data = fs.readFileSync(path,'utf8');
 var lines = data.split("\n")
 var start = new Date().getTime();
@@ -99,6 +101,17 @@ function getTestCaseContext(lines){
 
 
 
+}
+
+// checking tolerance thershold
+function tolerate(suite){
+    curScore = getMutationScore(suite,linesReduced,totalMutants);
+    console.log("curScore",curScore);
+    tolerance = mutationScore-alpha
+    if (tolerance>=0 && tolerance<=curScore){
+        return true;
+    }
+    return false;
 }
 
 function ownerReduction(mutantToTest,testToMutant){
@@ -292,7 +305,6 @@ function takeGreedyStep(testToMutant){
     optimizedSuite.push(max_idx)
     testToMutant[max_idx] = []
     return testToMutant
-
 }
 
 
@@ -342,7 +354,7 @@ var mutationScore = getMutationScore(testCases, linesReduced,totalMutants)
 //------Running Delayed Greedy Algorithm-------//
 
 run = true
-while(run && isNonEmpty(testToMutant)){
+while(run && !tolerate(optimizedSuite) && isNonEmpty(testToMutant)){
     run = false
 
     testToMutant,mutantToTest = objectReduction(mutantToTest,testToMutant)

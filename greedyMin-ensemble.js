@@ -4,10 +4,41 @@ const { execFileSync } = require('child_process');
 
 let args = process.argv.slice(2);
 let pathToFile = args[1]
-// let alpha = parseFloat(args[2])
+let alpha = parseFloat(args[2])
 let runs = parseFloat(args[0])
 let totalRunningTime = 0
 let cummulativeReducedSetSize = 0
+
+function createOutput() {
+    if (!fs.existsSync("greedyEnsemble.csv")) {
+        let row1 = ",,,Min,,,Max,, ,  ,";
+        let row2 = "Package,Original Set Size,Runs, |T|,t(ms),loss,|T|,t(ms),loss,Avg Reduced Size, Avg Time, Avg Loss, S.D";
+        fs.appendFileSync("greedyEnsemble.csv", row1 + "\n", 'utf8');
+        fs.appendFileSync("greedyEnsemble.csv", row2 + "\n", 'utf8');
+    }
+}
+
+function outputToCSV(str) {
+    fs.appendFileSync("greedyEnsemble.csv", str, 'utf8');
+}
+
+
+function avg(arr) {
+    let sum = 0;
+    for (let el of arr) {
+        sum += el
+    }
+    return sum / arr.length;
+}
+
+function standardDeviation(arr){
+    let mean = arr.reduce((acc, curr)=>{
+	return acc + curr
+}, 0) / arr.length;
+}
+
+
+
 
 function convertToMs(time){
 	// minutesR = new RegExp("[0-9]*m ","g");
@@ -26,7 +57,7 @@ function convertToMs(time){
 }
 
 function runScript(pathToFile,callback) {
-    const output = execFileSync("node",["greedyMin.js",pathToFile])
+    const output = execFileSync("node",["greedyMin.js",pathToFile,alpha])
     console.log(output.toString())
     lines = output.toString().split("\n");
     for (let line of lines){

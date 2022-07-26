@@ -16,7 +16,6 @@ let msize;
 let osize;
 let execTime = [];
 let reducedSize = [];
-let mutationScores = [];
 let loss = [];
 
 if (!alpha){
@@ -24,16 +23,16 @@ if (!alpha){
 }
 
 function createOutput() {
-    if (!fs.existsSync("hgs-ensemble.csv")) {
-        let row1 = ",,,,,Min,,,,Max,, , , ,";
-        let row2 = "Package,Original Set Size,Original Mutation Score,Runs,Alpha, |T|,t(ms),loss,mutation score ,|T|,t(ms),loss, mutation score,Avg Reduced Size, Avg Time, Avg Loss, Avg Mutation Score, S.D";
-        fs.appendFileSync("hgs-ensemble.csv", row1 + "\n", 'utf8');
-        fs.appendFileSync("hgs-ensemble.csv", row2 + "\n", 'utf8');
+    if (!fs.existsSync("greedyEnsemble.csv")) {
+        let row1 = ",,,Min,,,Max,, ,  ,";
+        let row2 = "Package,Original Set Size,Runs, |T|,t(ms),loss,|T|,t(ms),loss,Avg Reduced Size, Avg Time, Avg Loss, S.D";
+        fs.appendFileSync("greedyEnsemble.csv", row1 + "\n", 'utf8');
+        fs.appendFileSync("greedyEnsemble.csv", row2 + "\n", 'utf8');
     }
 }
 
 function outputToCSV(str) {
-    fs.appendFileSync("hgs-ensemble.csv", str, 'utf8');
+    fs.appendFileSync("greedyEnsemble.csv", str, 'utf8');
 }
 
 
@@ -70,29 +69,25 @@ function convertToMs(time) {
 }
 
 function runScript(pathToFile, callback) {
-    const output = execFileSync("node", ["hgs-alpha.js" ,pathToFile,alpha])
+    const output = execFileSync("node", ["greedyMin.js" ,pathToFile,alpha])
     console.log(output.toString())
     lines = output.toString().split("\n");
     for (let line of lines) {
-        if (line.includes("Mutation Score for originalSet=  ")) {
-            msize = parseFloat(line.split("=")[1]);
-        }
-        if (line.includes("Original set Size: ")) {
-            osize = parseFloat(line.split(":")[1]);
-        }
-        if (line.includes("Mutation Score for reducedSet= ")) {
-            rscore = parseFloat(line.split("=")[1])
-            if(rscore < (msize-alpha)){
-                return -1;
-            }
-            mutationScores.push(rscore);
-            score = (msize - rscore) ;
-            loss.push(score.toFixed(2));
-        }
         if (line.includes("Reduced set Size :")) {
             size = parseFloat(line.split(":")[1])
             cummulativeReducedSetSize += size;
             reducedSize.push(size);
+        }
+        if (line.includes("Mutation Score for originalSet = ")) {
+            msize = parseFloat(line.split("=")[1]);
+        }
+        if (line.includes("Original set Size :")) {
+            osize = parseFloat(line.split(":")[1]);
+        }
+        if (line.includes("Mutation Score for reducedSet = ")) {
+            rscore = parseFloat(line.split("=")[1])
+            score = (msize - rscore) * 100 / msize;
+            loss.push(score);
         }
         regex = new RegExp("[0-9]*m [0-9]*s [0-9]*ms", "g");
         match = line.match(regex);
@@ -108,12 +103,9 @@ function runScript(pathToFile, callback) {
 
 for (var i = 0; i < runs; i++) {
     console.log(`${chalk.green("Executing Run#"+(i+1))}`)
-    let bol = runScript(pathToFile, function(err) {
+    runScript(pathToFile, function(err) {
         if (err) throw err;
     });
-    if(bol==-1){
-        i--;
-    }
 }
 
 time = Math.round(totalRunningTime / runs, 2)
@@ -129,7 +121,7 @@ console.log(`${chalk.bgMagenta("Average reduced test set size = "+averageTSSize)
 
 
 
-let str = `${fileName},${osize},${msize},${runs},${alpha},${Math.min(...reducedSize)},${Math.min(...execTime)},${Math.min(...loss)},${Math.min(...mutationScores)},${Math.max(...reducedSize)},${Math.max(...execTime)},${Math.max(...loss)},${Math.max(...mutationScores)},${avg(reducedSize)},${avg(execTime)},${avg(loss)},${avg(mutationScores)},${standardDeviation(reducedSize)} \n`;
+let str = `${fileName},${osize},${runs},${Math.min(...reducedSize)},${Math.min(...execTime)},${Math.min(...loss)},${Math.max(...reducedSize)},${Math.max(...execTime)},${Math.max(...loss)},${avg(reducedSize)},${avg(execTime)},${avg(loss)},${standardDeviation(reducedSize)} \n`;
 
 createOutput()
 outputToCSV(str)

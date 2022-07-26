@@ -7,12 +7,12 @@ const fs = require('fs');
 
 //Reading the file
 const args = process.argv.slice(2);
-const path = args[1];
-let alpha = parseFloat(args[0])
+const path = args[0];
+const alpha = parseFloat(args[1])
 const data = fs.readFileSync(path,'utf8');
 const lines = data.split("\n")
 const start = new Date().getTime();
-let fileName = args[1].split('/')
+let fileName = args[0].split('/')
 fileName = fileName[fileName.length - 1]
 fileName = fileName.replace(".csv","");
 
@@ -69,7 +69,7 @@ for (const r in req){
     }
     curCard = 1;
 }
-if(tolerate(alpha,optimizedSuite)){
+if(tolerate(optimizedSuite)){
     writeToFiles();
     return;
 }
@@ -83,7 +83,7 @@ while(curCard<=maxCurd && !stop){
         let counter = arr();
         let nextTest = selectTest(curCard,getList(curCard),counter);
         if (nextTest!=null && !optimizedSuite.includes(nextTest) ){
-            if(tolerate(alpha,optimizedSuite)){
+            if(tolerate(optimizedSuite)){
                 stop = true;
                 break;
             }
@@ -143,17 +143,6 @@ function markFlag(size){
 
 
 // OUTPUT
-function createOutput(){
-    if (!fs.existsSync("HGS.csv")){
-        const header = "DateTime,Name,TotalMutants,ExecutionTime(ms),ExecutionTime,MutationScoreOriginal,MutationScoreReduced,ReducedSet,OriginalSetSize,ReducedSetSize"
-        fs.appendFileSync("HGS.csv",header+"\n",'utf8')
-    }
-}
-
-function outputToCSV(str){
-    fs.appendFileSync("HGS.csv",str,'utf8')
-}
-
 function createTable() {
     if (!fs.existsSync("hgsAlpha.csv")) {
         let header = "Package,Time (ms), Alpha, Original Set Size, Reduced Test Size, Original Mutation Score,  Mutation Score (Optimized set), Mutation Loss, Set Size Reduction";
@@ -343,10 +332,10 @@ function getMutationScore(testCases,lines,totalMutants){
 			return ((killedMutants/totalMutants)*100).toFixed(3);
 }
 
-function tolerate(alpha,suite){
+function tolerate(suite){
     curScore = getMutationScore(suite,linesReduced,totalMutants);
-    tolerance = mutationScore-alpha
-    if (tolerance>=0 && tolerance<=curScore){
+    tolerance = mutationScore-alpha;
+    if (tolerance>=0 && curScore>=tolerance){
         return true;
     }
     return false;
