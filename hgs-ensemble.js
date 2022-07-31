@@ -71,7 +71,6 @@ function convertToMs(time) {
 
 function runScript(pathToFile, callback) {
     const output = execFileSync("node", ["hgs-alpha.js" ,pathToFile,alpha])
-    console.log(output.toString())
     lines = output.toString().split("\n");
     for (let line of lines) {
         if (line.includes("Mutation Score for originalSet=  ")) {
@@ -83,11 +82,13 @@ function runScript(pathToFile, callback) {
         if (line.includes("Mutation Score for reducedSet= ")) {
             rscore = parseFloat(line.split("=")[1])
             if(rscore < (msize-alpha)){
-                return -1;
+                console.log("Not in range, running agains")
+                return 0;
             }
             mutationScores.push(rscore);
             score = (msize - rscore) ;
-            loss.push(score.toFixed(2));
+            console.log(`msize ${msize} rscore ${rscore} loss ${score}`);
+            loss.push(parseFloat(score.toFixed(2)));
         }
         if (line.includes("Reduced set Size :")) {
             size = parseFloat(line.split(":")[1])
@@ -101,18 +102,21 @@ function runScript(pathToFile, callback) {
             totalRunningTime += timeInMs;
             execTime.push(timeInMs)
         }
-
     }
+    console.log(output.toString());
 }
 
-
-for (var i = 0; i < runs; i++) {
-    console.log(`${chalk.green("Executing Run#"+(i+1))}`)
+let count = 0
+while (count < runs ) {
+    temp = count ;
+    console.log(`${chalk.green("Executing Run#"+(count+1))}`)
     let bol = runScript(pathToFile, function(err) {
         if (err) throw err;
     });
-    if(bol==-1){
-        i--;
+    if(bol==0){
+        count = temp;
+    } else {
+        count ++;
     }
 }
 

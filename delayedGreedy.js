@@ -5,7 +5,6 @@ const fs = require('fs');
 var args = process.argv.slice(2);
 var path = args[0];
 var alpha = args[1];
-console.log("alpha",alpha);
 var data = fs.readFileSync(path,'utf8');
 var lines = data.split("\n")
 var start = new Date().getTime();
@@ -101,17 +100,6 @@ function getTestCaseContext(lines){
 
 
 
-}
-
-// checking tolerance thershold
-function tolerate(suite){
-    curScore = getMutationScore(suite,linesReduced,totalMutants);
-    console.log("curScore",curScore);
-    tolerance = mutationScore-alpha
-    if (tolerance>=0 && tolerance<=curScore){
-        return true;
-    }
-    return false;
 }
 
 function ownerReduction(mutantToTest,testToMutant){
@@ -333,7 +321,6 @@ var testToMutant = getTestCaseContext(lines);
 var testCases = getTestCases(lines[0])
 
 
-
 var header = lines.slice(0,1)[0].split('|').splice(2);
 
 var linesExceptFirst = lines.slice(1,lines.length-1); //uptil the last item(exclusive) since it is empty string
@@ -348,13 +335,21 @@ totalMutants = linesReduced.length
 
 var mutationScore = getMutationScore(testCases, linesReduced,totalMutants)
 
-
+function tolerate(suite){
+    curScore = getMutationScore(suite,linesReduced,totalMutants);
+    tolerance = mutationScore-alpha;
+    if (tolerance>=0 && curScore>=tolerance){
+        return true;
+    }
+    return false;
+}
 
 
 //------Running Delayed Greedy Algorithm-------//
 
 run = true
-while(run && !tolerate(optimizedSuite) && isNonEmpty(testToMutant)){
+// while(run && !tolerate(optimizedSuite) && isNonEmpty(testToMutant)){
+while(run && !tolerate(optimizedSuite)){
     run = false
 
     testToMutant,mutantToTest = objectReduction(mutantToTest,testToMutant)
@@ -364,7 +359,8 @@ while(run && !tolerate(optimizedSuite) && isNonEmpty(testToMutant)){
 
 }
 
-while(isNonEmpty(testToMutant)){
+// while(isNonEmpty(testToMutant)){
+while(!tolerate(optimizedSuite) && isNonEmpty(testToMutant)){
     testToMutant = takeGreedyStep(testToMutant)
 }
 
