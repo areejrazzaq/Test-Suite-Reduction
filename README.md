@@ -57,4 +57,4 @@ Executes multiple runs of HGS-alpha
 
 ### hgs-alpha  
 Introduces a tolerance value alpha which stops the search when a given tolerance is achieved.
-`node hgs-alpha.js <alpha> <path to csv>`
+`node hgs-alpha.js <path to csv> <alpha> `
