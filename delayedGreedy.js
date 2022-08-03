@@ -327,7 +327,7 @@ var linesExceptFirst = lines.slice(1,lines.length-1); //uptil the last item(excl
 var linesArr = linesExceptFirst.map(line=>line.split('|').splice(2));
 
 
-linesReduced = linesArr.map(line => line.splice(line.length-1)); //do not uncomment
+// linesReduced = linesArr.map(line => line.splice(line.length-1)); //do not uncomment
 linesReduced = linesArr.filter(line=>line.indexOf('-1') === -1 && line.indexOf('-2') === -1)
 totalMutants = linesReduced.length
 

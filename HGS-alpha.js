@@ -17,19 +17,23 @@ fileName = fileName[fileName.length - 1]
 fileName = fileName.replace(".csv","");
 
 // MUTATION SCORE
-let header = lines.slice(0,1)[0].split('|').splice(2);
-let linesExceptFirst = lines.slice(1,lines.length-1); //uptil the last item(exclusive) since it is empty string
+let templines = data.split('\n')
+header = templines.slice(0,1)[0].split('|').splice(2);
+let linesExceptFirst = templines.slice(1,templines.length-1); //uptil the last item(exclusive) since it is empty string
+
 let linesArr = linesExceptFirst.map(line=>line.split('|').splice(2));
 
-for(let i=0; i<linesArr.length; i++){
-    for(let j=linesArr[i].length-1 ; j>linesArr[i].length-2 ;j--){
-        linesArr[i][j] = (linesArr[i][j]).replace('\r','');
-    }
-}
 
-linesReduced = linesArr.filter(line=>
-    (line.indexOf(-1) === -1 && line.indexOf(-2) === -1)
-)
+//lines = linesArr.map(line => line.splice(line.length-1)); //do not uncomment
+
+
+linesReduced = linesArr.filter(line=>line.indexOf('-1') === -1 && line.indexOf('-2') === -1)
+
+for(var i = 0; i < linesReduced.length;i++){
+    var last = linesReduced[i][linesReduced[i].length - 1]
+    last = last.split('\r')[0]
+    linesReduced[i][linesReduced[i].length-1] = last
+}
 const totalMutants = linesReduced.length;
 
 // INPUT
@@ -317,10 +321,8 @@ function selectTest(size,list,counter){
     }
 }
 
-// MUTATION SCORE FUNCTION
 function getMutationScore(testCases,lines,totalMutants){
     let killedMutants = 0;
-    // console.log(lines);
 			for (let line of lines){
 				for (let idx of testCases){
 					if (line[idx] === '0'){
@@ -329,7 +331,7 @@ function getMutationScore(testCases,lines,totalMutants){
 					}
 				}
 			}
-			return ((killedMutants/totalMutants)*100).toFixed(3);
+			return ((killedMutants/totalMutants)*100).toFixed(2);
 }
 
 function tolerate(suite){

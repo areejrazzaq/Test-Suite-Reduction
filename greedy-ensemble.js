@@ -86,7 +86,11 @@ function runScript(pathToFile, callback) {
         }
         if (line.includes("Mutation Score for reducedSet = ")) {
             rscore = parseFloat(line.split("=")[1])
-            score = (msize - rscore) * 100 / msize;
+            if(rscore < (msize-alpha)){
+                console.log("Not in range, running agains")
+                return 0;
+            }
+            score = (msize - rscore);
             loss.push(score);
         }
         regex = new RegExp("[0-9]*m [0-9]*s [0-9]*ms", "g");
@@ -100,12 +104,17 @@ function runScript(pathToFile, callback) {
     }
 }
 
-
+let count = 0
 for (var i = 0; i < runs; i++) {
     console.log(`${chalk.green("Executing Run#"+(i+1))}`)
-    runScript(pathToFile, function(err) {
+    let bol = runScript(pathToFile, function(err) {
         if (err) throw err;
     });
+    if(bol==0){
+        count = temp;
+    } else {
+        count ++;
+    }
 }
 
 time = Math.round(totalRunningTime / runs, 2)

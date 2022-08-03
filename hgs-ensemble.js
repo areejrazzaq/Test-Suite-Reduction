@@ -87,7 +87,6 @@ function runScript(pathToFile, callback) {
             }
             mutationScores.push(rscore);
             score = (msize - rscore) ;
-            console.log(`msize ${msize} rscore ${rscore} loss ${score}`);
             loss.push(parseFloat(score.toFixed(2)));
         }
         if (line.includes("Reduced set Size :")) {
