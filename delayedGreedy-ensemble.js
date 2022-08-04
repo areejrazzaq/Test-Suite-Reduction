@@ -25,8 +25,8 @@ if (!alpha){
 
 function createOutput() {
     if (!fs.existsSync("delayedGreedy-ensemble.csv")) {
-        let row1 = ",,,,,Min,,,,Max,, , , ,";
-        let row2 = "Package,Original Set Size,Original Mutation Score,Runs,Alpha, |T|,t(ms),loss,mutation score ,|T|,t(ms),loss, mutation score,Avg Reduced Size, Avg Time, Avg Loss, Avg Mutation Score, S.D";
+        let row1 = ",,,,,Min,,,,Max,,,,,,";
+        let row2 = "Package,Original Set Size,Original Mutation Score, Runs, Alpha, |T|,t(ms),loss,mutation score,|T|, (ms),loss,mutation score,Avg Reduced Size, Avg Time, Avg Loss, Avg Muatation Score, S.D, TS Red, FD Red";
         fs.appendFileSync("delayedGreedy-ensemble.csv", row1 + "\n", 'utf8');
         fs.appendFileSync("delayedGreedy-ensemble.csv", row2 + "\n", 'utf8');
     }
@@ -48,16 +48,20 @@ function avg(arr) {
 function standardDeviation(arr){
     let mean = arr.reduce((acc, curr)=>{
 	return acc + curr
-}, 0) / arr.length;
+    }, 0) / arr.length;
 
 
-arr = arr.map((el)=>{
-	return (el - mean) ** 2
-})
+    arr = arr.map((el)=>{
+        return (el - mean) ** 2
+    })
 
-let total = arr.reduce((acc, curr)=> acc + curr, 0);
+    let total = arr.reduce((acc, curr)=> acc + curr, 0);
 
-return Math.sqrt(total / arr.length)
+    return Math.sqrt(total / arr.length)
+}
+
+function percent(original,reduced){
+    return (((original-reduced)*100)/original).toFixed(3);
 }
 
 function convertToMs(time) {
@@ -133,7 +137,8 @@ console.log(`${chalk.bgMagenta("Average reduced test set size = "+averageTSSize)
 
 
 
-let str = `${fileName},${osize},${msize},${runs},${alpha},${Math.min(...reducedSize)},${Math.min(...execTime)},${Math.min(...loss)},${Math.min(...mutationScores)},${Math.max(...reducedSize)},${Math.max(...execTime)},${Math.max(...loss)},${Math.max(...mutationScores)},${avg(reducedSize)},${avg(execTime)},${avg(loss)},${avg(mutationScores)},${standardDeviation(reducedSize)} \n`;
+let str = `${fileName},${osize},${msize},${runs},${alpha},${Math.min(...reducedSize)},${Math.min(...execTime)},${Math.min(...loss)},${Math.min(...mutationScores)}, ${Math.max(...reducedSize)},${Math.max(...execTime)},${Math.max(...loss)},${Math.max(...mutationScores)},${avg(reducedSize)},${avg(execTime)},${avg(loss)},${avg(mutationScores)},${standardDeviation(reducedSize)} , ${percent(osize,avg(reducedSize))} , ${percent(msize,avg(mutationScores))}\n`;
+
 
 createOutput()
 outputToCSV(str)
