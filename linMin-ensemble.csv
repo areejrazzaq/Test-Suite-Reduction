@@ -1,3 +1,5 @@
 ,,,,,Min,,,,Max,,,,,,
 Package,Original Set Size,Original Mutation Score, Runs, Alpha, |T|,t(ms),loss,mutation score,|T|, (ms),loss,mutation score,Avg Reduced Size, Avg Time, Avg Loss, Avg Muatation Score, S.D, TS Red, FD Red
 body-parser-new,218,74.97,10,5,48,91,4.9,70.07, 55,127,4.9,70.07,51,101.3,4.8999999999999995,70.06999999999998,2.32379000772445 , 76.606 , 6.536
+debug-new,4,3.68,10,0,1,10,0,3.68, 1,21,0,3.68,1,12.545454545454545,0,3.6800000000000006,0 , 75.000 , -0.000
+debug-new,4,3.68,10,0,1,10,0,3.68, 1,14,0,3.68,1,12.090909090909092,0,3.6800000000000006,0 , 75.000 , -0.000

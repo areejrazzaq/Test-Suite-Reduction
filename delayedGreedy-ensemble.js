@@ -85,8 +85,11 @@ function runScript(pathToFile, callback) {
         }
         if (line.includes("Mutation Score for reducedSet= ")) {
             rscore = parseFloat(line.split("=")[1])
+            if(msize-alpha <= 0){
+                alpha = 0;
+            }
             if(alpha!=0 && rscore < (msize-alpha)){
-                console.log("Not in range, running agains")
+                console.log("Not in range, running again")
                 return 0;
             }
             mutationScores.push(rscore);

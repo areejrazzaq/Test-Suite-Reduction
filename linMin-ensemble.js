@@ -23,6 +23,7 @@ if (!alpha){
     alpha = 0;
 }
 
+
 function createOutput() {
     if (!fs.existsSync("linMin-ensemble.csv")) {
         let row1 = ",,,,,Min,,,,Max,,,,,,";
@@ -85,9 +86,12 @@ function runScript(pathToFile, callback) {
             osize = parseFloat(line.split(":")[1]);
         }
         if (line.includes("Mutation Score for reducedSet =")) {
+            if(msize-alpha <= 0){
+                alpha = 0;
+            }
             rscore = parseFloat(line.split("=")[1]);
             if(rscore < (msize-alpha)){
-                console.log("Not in range, running agains")
+                console.log("Not in range, running again")
                 return 0;
             }
             mutationScores.push(rscore);
